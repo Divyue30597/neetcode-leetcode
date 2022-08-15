@@ -122,3 +122,51 @@ func threeSum(nums []int) [][]int {
     return result
 }
 ```
+
+```
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+
+Example 1:
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+
+Example 2:
+Input: height = [1,1]
+Output: 1
+
+Constraints:
+    n == height.length
+    2 <= n <= 105
+    0 <= height[i] <= 104
+```
+
+
+```go
+func maxArea(height []int) int {
+    leftPointer, rightPointer := 0,len(height)-1
+    result := 0
+    // comparing the left and the right pointer
+    for leftPointer < rightPointer {
+        // calculating area's width by subtracting rP - lP and taking the min val from the given arr using lP and rP as indices.
+        area := (rightPointer - leftPointer) * int(math.Min(float64(height[leftPointer]), float64(height[rightPointer])))
+        // we need the max result, so with each iteration the result will change but we need the past result 
+        // to compare with the existing one i.e., the one which will be calculated in each iteration
+        result = int(math.Max(float64(result), float64(area)))
+        
+        // if the val of lP is less than rP, then increment the lP, since we need the max area and vice versa.
+        if height[leftPointer] < height[rightPointer] {
+            leftPointer++
+        } else {
+            rightPointer--
+        }
+    }
+    return result
+}
+```
